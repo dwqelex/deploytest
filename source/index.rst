@@ -6,7 +6,7 @@
 Welcome to doctest's documentation!
 ===================================
 
-Contents:
+Contents:你好，这里是文档测试
 
 .. toctree::
    :maxdepth: 2

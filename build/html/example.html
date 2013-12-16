@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>快速集成 &mdash; doctest 1.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="doctest 1.0 文档" href="index.html" />
+    <link rel="prev" title="337SDK集成文档" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="index.html" title="337SDK集成文档"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>快速集成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>That has a paragraph about a main subject and is set when the &#8216;=&#8217;
+is at least the same length of the title itself.</p>
+<div class="section" id="lib">
+<h2>引入337lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><img alt="_static/includelib.jpg" src="_static/includelib.jpg" />
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2>添加权限<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>需要声明的权限如下:</p>
+<div class="highlight-python"><pre>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/&gt;
+&lt;uses-permission android:name="android.permission.READ_PHONE_STATE"/&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/&gt;
+&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
+&lt;uses-permission android:name="com.android.vending.BILLING" /&gt;
+&lt;uses-permission android:name="android.permission.GET_ACCOUNTS"/&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /&gt;
+&lt;uses-permission android:name="android.permission.RECEIVE_SMS" /&gt;
+&lt;uses-permission android:name="android.permission.SEND_SMS" /&gt;</pre>
+</div>
+</div>
+<div class="section" id="activitymetadata">
+<h2>添加Activity、MetaData和其他内容<a class="headerlink" href="#activitymetadata" title="永久链接至标题">¶</a></h2>
+<p>需要添加的内容如下:</p>
+<div class="highlight-python"><pre>&lt;activity
+        android:name="com.web337.android.user.UserPage" android:theme="@style/mobile337user"/&gt;
+&lt;activity
+        android:name="com.web337.android.pay.PayCoreMobileActivity"
+        android:configChanges="orientation|keyboardHidden|screenSize"/&gt;
+&lt;activity
+        android:name="com.web337.android.pay.PayFromPCActivity"
+        android:configChanges="orientation|keyboardHidden|screenSize"/&gt;
+&lt;activity
+        android:name="com.web337.android.pay.PayShowPackagesActivity"
+        android:configChanges="orientation|keyboardHidden|screenSize" /&gt;
+&lt;activity
+        android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Translucent"/&gt;
+&lt;meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 220782057940018"/&gt;
+
+&lt;activity
+        android:name="com.fortumo.android.FortumoActivity"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"&gt;
+&lt;/activity&gt;
+&lt;activity
+        android:name="com.web337.android.pay.fortumo.FortumoActivity"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:configChanges="orientation|keyboardHidden|screenSize"&gt;
+&lt;/activity&gt;
+&lt;activity
+        android:name="com.web337.android.widget.Web"
+        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:launchMode="singleTask"&gt;
+&lt;/activity&gt;
+&lt;activity
+        android:name="com.web337.android.ticket.TicketCoreActivity"
+        android:configChanges="orientation|keyboardHidden|screenSize" &gt;
+&lt;/activity&gt;
+&lt;receiver android:name="com.fortumo.android.BillingSMSReceiver"&gt;
+  &lt;intent-filter&gt;
+    &lt;action android:name="android.provider.Telephony.SMS_RECEIVED"&gt;&lt;/action&gt;
+  &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+
+&lt;uses-feature android:name="android.hardware.telephony" android:required="false"&gt;&lt;/uses-feature&gt;</pre>
+</div>
+<p><em>screenSize添加时如果出现错误，请更改targetSdkVersion为13以上即可</em></p>
+</div>
+<div class="section" id="sdk">
+<h2>添加广告SDK配置<a class="headerlink" href="#sdk" title="永久链接至标题">¶</a></h2>
+<p>详见广告SDK接入文档</p>
+</div>
+<div class="section" id="id3">
+<h2>初始化所有第三方SDK<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>直接调用一下方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">com</span><span class="o">.</span><span class="n">web337</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">sdks</span><span class="o">.</span><span class="n">SdkCore</span><span class="o">.</span><span class="n">initAll</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>接入用户系统<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">实例化一个回调对象：</p>
+<div class="highlight-python"><pre>final UserLoginCallback callback = new UserLoginCallback(){
+        @Override
+        public void onCancel() {
+                alert("取消登录");
+        }
+
+        @Override
+        public void onLoginSuccess(User user, boolean isregister) {
+                /*
+                登录成功后设置角色id、角色名称、服id、服名称
+                */
+                com.web337.android.id.Zone.getInstance().setRole_id("roleid00001");
+                com.web337.android.id.Zone.getInstance().setRole_name("wangxiaoming");
+                com.web337.android.id.Zone.getInstance().setServer_id("1");
+                com.web337.android.id.Zone.getInstance().setServer_name("ServerName");
+                //成功后可以显示一个欢迎提示，玩家可以在此切换账号
+                UserCore.showWelcome(YourActivity.this);//【可选功能】
+                if(isregister){
+                        alert("注册成功"+user.getUid());
+                }else{
+                        alert("登录成功"+user.getUid());
+                }
+        }
+};</pre>
+</div>
+</li>
+<li><p class="first">调用checkLogin方法：</p>
+<div class="highlight-python"><pre>com.web337.android.user.UserCore.checkLogin(Context c, UserLoginCallback callback)</pre>
+</div>
+</li>
+</ul>
+<p><em>可以在进入游戏主页面后直接调用，Context传递当前的activity即可，UserLoginCallback传递上一步创建的callback对象</em></p>
+<p><strong>调用该方法后只需要关心callback中的两个回调方法即可，若当前无登录用户，则会弹出登录或注册页面，用户登录或注册完成后，会回调。若已经有登录的用户，则直接回调</strong></p>
+</div>
+<div class="section" id="id5">
+<h2>发送行云统计<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>用户登录完成后，设置完角色信息即可调用:</p>
+<div class="highlight-python"><pre>com.web337.android.sdks.XA.send(Context c);</pre>
+</div>
+<p>Context传递当前Activity即可</p>
+</div>
+<div class="section" id="id6">
+<h2>支付初始化<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>示例代码如下:</p>
+<div class="highlight-python"><pre>String appid = "xxx@android_tw_1";
+PayCore.init(this, appid, new PayCallback(){
+        @Override
+        public void onCancel() {
+                alert("取消支付");
+        }
+
+        @Override
+        public void onComplete(Order o) {
+                /*
+                 * 支付完成表明玩家付款成功，但并不表明支付中心回调游戏服务端是成功的
+                 */
+                alert("支付完成。"+o.getTransid());
+        }
+
+        @Override
+        public void onFailed(Msg msg) {
+                alert("支付失败。"+msg.getMsg());
+        }
+
+        @Override
+        public void onInitFinish(Msg msg) {
+                if(msg.isSuccess()){
+                        alert("初始化完成。");
+                }else{
+                        alert("初始化出错。"+msg.getMsg());
+                }
+}});</pre>
+</div>
+<p><strong>初始化涉及网络操作，不建议将此步骤放在用户点击商城的时候</strong></p>
+</div>
+<div class="section" id="id7">
+<h2>展示套餐<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>需要如下三个步骤:</p>
+<div class="highlight-python"><pre>//若未设置过commonUid,则需要设置uid才能去支付
+//PayCore.setUid("elex337_12345");
+
+//设置角色id，回调时会回调此id，若未设置，则角色id为uid
+PayCore.setRoleId("abcde12345");
+
+//展示套餐，此处套餐均在支付平台后台配置
+PayCore.show();</pre>
+</div>
+<p><strong>*至此337 SDK接入完成，更多的使用方法可以参考各个模块的文档*</strong></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">快速集成</a><ul>
+<li><a class="reference internal" href="#lib">引入337lib工程</a></li>
+<li><a class="reference internal" href="#id2">添加权限</a></li>
+<li><a class="reference internal" href="#activitymetadata">添加Activity、MetaData和其他内容</a></li>
+<li><a class="reference internal" href="#sdk">添加广告SDK配置</a></li>
+<li><a class="reference internal" href="#id3">初始化所有第三方SDK</a></li>
+<li><a class="reference internal" href="#id4">接入用户系统</a></li>
+<li><a class="reference internal" href="#id5">发送行云统计</a></li>
+<li><a class="reference internal" href="#id6">支付初始化</a></li>
+<li><a class="reference internal" href="#id7">展示套餐</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">337SDK集成文档</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/example.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="index.html" title="337SDK集成文档"
+             >上一页</a> |</li>
+        <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2013, dongwq.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2 创建。
+    </div>
+  </body>
+</html>

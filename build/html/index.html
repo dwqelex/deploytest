@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to doctest’s documentation! &mdash; doctest 1.0 文档</title>
+    <title>337SDK集成文档 &mdash; doctest 1.0 文档</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <link rel="top" title="doctest 1.0 文档" href="#" /> 
+    <link rel="top" title="doctest 1.0 文档" href="#" />
+    <link rel="next" title="快速集成" href="quickstart.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="总目录"
              accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="快速集成"
+             accesskey="N">下一页</a> |</li>
         <li><a href="#">doctest 1.0 文档</a> &raquo;</li> 
       </ul>
     </div>  
@@ -42,21 +46,63 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-doctest-s-documentation">
-<h1>Welcome to doctest&#8217;s documentation!<a class="headerlink" href="#welcome-to-doctest-s-documentation" title="永久链接至标题">¶</a></h1>
-<p>Contents:</p>
+  <div class="section" id="sdk">
+<h1>337SDK集成文档<a class="headerlink" href="#sdk" title="永久链接至标题">¶</a></h1>
 <div class="toctree-wrapper compound">
-<ul class="simple">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速集成</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#lib">引入337lib工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#id2">添加权限</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#activitymetadata">添加Activity、MetaData和其他内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#sdk">添加广告SDK配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#id3">初始化所有第三方SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#id4">接入用户系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#id5">发送行云统计</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#id6">支付初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#id7">展示套餐</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="userlogin.html">用户登录模块集成</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="userlogin.html#lib">引入lib工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userlogin.html#manifest">在Manifest文件添加必要的声明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userlogin.html#id2">获取用户信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userlogin.html#id3">自定义用户登录界面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userlogin.html#id4">其他方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="payment.html">移动支付集成</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#id2">玩家支付流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#id3">准备工作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#lib">在应用中引入lib工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#manifest">在Manifest文件添加必要的声明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#paycore">初始化PayCore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#id4">支付准备</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#id5">发起支付</a></li>
+<li class="toctree-l2"><a class="reference internal" href="payment.html#id6">其他说明</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="othersdk.html">第三方广告及统计SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#id1">目前该组件接入的SDK有</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#lib">在应用中引入lib工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#id2">开始集成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#tapjop">集成Tapjop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#facebook">集成Facebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#chartboost">集成Chartboost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#google-analytics">集成Google Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#hasoffers">集成hasoffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#fiksu">集成FIKSU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#id3">自定义初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="othersdk.html#id4">其他方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">337移动支付服务端回调及验证说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id2">概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id3">回调环节</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#id4">安全验证</a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="永久链接至标题">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>索引</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>模块索引</em></a></li>
-<li><a class="reference internal" href="search.html"><em>搜索页面</em></a></li>
-</ul>
 </div>
 
 
@@ -65,14 +111,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">內容目录</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to doctest&#8217;s documentation!</a><ul>
-</ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="下一章">快速集成</a></p>
   <h3>本页</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -101,6 +142,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="总目录"
              >索引</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="快速集成"
+             >下一页</a> |</li>
         <li><a href="#">doctest 1.0 文档</a> &raquo;</li> 
       </ul>
     </div>

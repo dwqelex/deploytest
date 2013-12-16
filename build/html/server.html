@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>337移动支付服务端回调及验证说明 &mdash; doctest 1.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="doctest 1.0 文档" href="index.html" />
+    <link rel="prev" title="第三方广告及统计SDK" href="othersdk.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="othersdk.html" title="第三方广告及统计SDK"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>337移动支付服务端回调及验证说明<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>概述<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>在用户支付完成之后，支付平台会将支付结果通知到应用提供的回调地址，应用接收到回调后，应该根据结果给用户提供相应的商品，并给支付平台返回一个事先约定好的结果。至此一笔交易在支付平台才算完成。</p>
+<p>当应用没有返回要求的结果时，支付平台最多会回调3次，3次不成功之后，当前交易会被设置为失败交易，之后会有客服介入，手动处理失败交易。</p>
+<p>为了保证应用方收到的数据是由支付平台发送而非第三方伪造，支付平台提供了二次验证的方式，应用服务端在收到回调通知之后，可以拿收到的数据到支付平台提供的接口进行验证，若验证通过，则说明该通知真实可信。</p>
+</div>
+<div class="section" id="id3">
+<h2>回调环节<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>应用需要提供一个回调地址来接收回调参数</p>
+<p>支付平台会使用post方式发送以下参数：</p>
+<ul class="simple">
+<li>trans_id：交易流水号，该交易在支付平台生成的唯一id</li>
+<li>amount：道具数量，该值由前端传递而来</li>
+<li>user_id：完成支付的玩家id，该值由前端传递而来</li>
+<li>timestamp：时间戳</li>
+<li>gross：交易金额</li>
+<li>currency：货币类型代码，比如USD(美元)、CNY(人民币)、BRL(巴西雷亚尔)</li>
+<li>channel：渠道名称，比如alipay、paypal、mycard</li>
+<li>item：商品描述，该值由前端传递而来</li>
+<li>custom_data：应用方的自定义字段，由前端传递而来</li>
+<li>product_id：应用方定义的商品id，由前端传递而来</li>
+<li>pay_type：交易类型，移动端该值为mobile</li>
+<li>role_id：角色id</li>
+</ul>
+<p>支付平台需要应用服务端返回以下规则的字符串：</p>
+<ul class="simple">
+<li>3,null：表示游戏方处理失败</li>
+<li>3,94a0acb127ef8ee8c925e3944941ce5e：表示游戏方不认识这个玩家id</li>
+<li>3,user_id：表示处理成功，比如回调时，user_id为123456，那么游戏方的返回值应该为3,123456</li>
+</ul>
+<p>如果3次回调后应用服务端未按规则返回，则该交易失败，等待客服处理。</p>
+</div>
+<div class="section" id="id4">
+<h2>安全验证<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>安全验证机制可以保证应用服务端收到的回调确实是由支付平台发起而非第三方伪造。</p>
+<p>具体的验证方法详见：<a class="reference external" href="https://code.google.com/p/elexpublish/wiki/Payment">https://code.google.com/p/elexpublish/wiki/Payment</a>/howto#验证交易信息</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">337移动支付服务端回调及验证说明</a><ul>
+<li><a class="reference internal" href="#id2">概述</a></li>
+<li><a class="reference internal" href="#id3">回调环节</a></li>
+<li><a class="reference internal" href="#id4">安全验证</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="othersdk.html"
+                        title="上一章">第三方广告及统计SDK</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/server.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="othersdk.html" title="第三方广告及统计SDK"
+             >上一页</a> |</li>
+        <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2013, dongwq.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2 创建。
+    </div>
+  </body>
+</html>

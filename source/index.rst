@@ -13,5 +13,6 @@
    quickstart
    userlogin
    payment
-   othersdk
    server
+   othersdk
+   

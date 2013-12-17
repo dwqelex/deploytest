@@ -8,7 +8,7 @@
     
     <title>移动支付集成 &mdash; doctest 1.0 文档</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,23 +25,29 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
+    <link rel="next" title="337移动支付服务端回调及验证说明" href="server.html" />
     <link rel="prev" title="用户登录模块集成" href="userlogin.html" /> 
   </head>
   <body>
-    <div class="related">
-      <h3>导航</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="总目录"
-             accesskey="I">索引</a></li>
-        <li class="right" >
+    <div class="header-wrapper">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">doctest 1.0 文档</a></div>
+        <div class="rel">
           <a href="userlogin.html" title="用户登录模块集成"
-             accesskey="P">上一页</a> |</li>
-        <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
-      </ul>
-    </div>  
+             accesskey="P">上一页</a> |
+          <a href="server.html" title="337移动支付服务端回调及验证说明"
+             accesskey="N">下一页</a> |
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a>
+        </div>
+       </div>
+    </div>
 
-    <div class="document">
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body">
@@ -196,63 +202,66 @@ android:configChanges="orientation|keyboardHidden|screenSize" /&gt;</pre>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">內容目录</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">移动支付集成</a><ul>
-<li><a class="reference internal" href="#id2">玩家支付流程</a></li>
-<li><a class="reference internal" href="#id3">准备工作</a></li>
-<li><a class="reference internal" href="#lib">在应用中引入lib工程</a></li>
-<li><a class="reference internal" href="#manifest">在Manifest文件添加必要的声明</a></li>
-<li><a class="reference internal" href="#paycore">初始化PayCore</a></li>
-<li><a class="reference internal" href="#id4">支付准备</a></li>
-<li><a class="reference internal" href="#id5">发起支付</a></li>
-<li><a class="reference internal" href="#id6">其他说明</a></li>
+        </div>
+        <div class="sidebar">
+          <h3>內容目录</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="userlogin.html">用户登录模块集成</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">移动支付集成</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">玩家支付流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">准备工作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lib">在应用中引入lib工程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manifest">在Manifest文件添加必要的声明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paycore">初始化PayCore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">支付准备</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">发起支付</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">其他说明</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">337移动支付服务端回调及验证说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="othersdk.html">第三方广告及统计SDK</a></li>
 </ul>
 
-  <h4>上一个主题</h4>
-  <p class="topless"><a href="userlogin.html"
-                        title="上一章">用户登录模块集成</a></p>
-  <h3>本页</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/payment.txt"
-           rel="nofollow">显示源代码</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>快速搜索</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="转向" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    输入相关的术语，模块，类或者函数名称进行搜索
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+          <h3 style="margin-top: 1.5em;">搜索</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="转向" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            输入相关的术语，模块，类或者函数名称进行搜索
+          </p>
         </div>
+        <div class="clearer"></div>
       </div>
-      <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>导航</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="总目录"
-             >索引</a></li>
-        <li class="right" >
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
           <a href="userlogin.html" title="用户登录模块集成"
-             >上一页</a> |</li>
-        <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
-      </ul>
-    </div>
+             >上一页</a> |
+          <a href="server.html" title="337移动支付服务端回调及验证说明"
+             >下一页</a> |
+          <a href="genindex.html" title="总目录"
+             >索引</a>
+            <br/>
+            <a href="_sources/payment.txt"
+               rel="nofollow">显示源代码</a>
+        </div>
+
+        <div class="right">
+          
     <div class="footer">
         &copy; 版权所有 2013, dongwq.
       由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2 创建。
     </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
   </body>
 </html>

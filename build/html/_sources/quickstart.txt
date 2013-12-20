@@ -1,8 +1,4 @@
-===============				
-快速集成
-===============
-That has a paragraph about a main subject and is set when the '='
-is at least the same length of the title itself.
+
 
 引入337lib工程
 --------------
@@ -20,10 +16,13 @@ is at least the same length of the title itself.
 	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="com.android.vending.BILLING" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="android.permission.RECEIVE_SMS" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
  
@@ -31,46 +30,74 @@ is at least the same length of the title itself.
 --------------------------------
 需要添加的内容如下: ::
 
-		<activity 
-			android:name="com.web337.android.user.UserPage" android:theme="@style/mobile337user"/>
-		<activity 
-			android:name="com.web337.android.pay.PayCoreMobileActivity" 
-			android:configChanges="orientation|keyboardHidden|screenSize"/>
-		<activity 
-			android:name="com.web337.android.pay.PayFromPCActivity" 
-			android:configChanges="orientation|keyboardHidden|screenSize"/>
-		<activity 
-			android:name="com.web337.android.pay.PayShowPackagesActivity" 
-			android:configChanges="orientation|keyboardHidden|screenSize" />
-		<activity 
-			android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Translucent"/>
-		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 220782057940018"/>
+        <activity
+            android:name="com.web337.android.pay.PayCoreMobileActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:name="com.web337.android.pay.PayFromPCActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:name="com.web337.android.pay.PayShowPackagesActivity"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:name="com.web337.android.ticket.TicketCoreActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.fortumo.android.FortumoActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.web337.android.pay.fortumo.FortumoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.web337.android.widget.Web"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name="com.web337.android.user.UserPage"
+            android:theme="@style/mobile337user" >
+        </activity>
+        <activity
+            android:name="com.web337.android.user.GoogleAcountLogin"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:theme="@android:style/Theme.Translucent" />
+			
+	<receiver
+            android:name="com.fiksu.asotracking.InstallTracking"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="forward.1"
+                android:value="com.mobileapptracker.Tracker" />
+            <meta-data
+                android:name="forward.2"
+                android:value="com.web337.android.Tracker" />
+        </receiver>
+        <receiver android:name="com.fortumo.android.BillingSMSReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.fortumo.android.FortumoService" />
+        <service android:name="com.fortumo.android.StatusUpdateService" />
 		
-		<activity 
-			android:name="com.fortumo.android.FortumoActivity" 
-			android:theme="@android:style/Theme.Translucent.NoTitleBar">
-		</activity>
-		<activity 
-			android:name="com.web337.android.pay.fortumo.FortumoActivity" 
-			android:theme="@android:style/Theme.Translucent.NoTitleBar" 
-			android:configChanges="orientation|keyboardHidden|screenSize">
-		</activity>
-		<activity 
-			android:name="com.web337.android.widget.Web" 
-			android:configChanges="orientation|keyboardHidden|screenSize" 
-			android:launchMode="singleTask">
-		</activity>
-		<activity 
-			android:name="com.web337.android.ticket.TicketCoreActivity" 
-			android:configChanges="orientation|keyboardHidden|screenSize" >
-		</activity>
-		<receiver android:name="com.fortumo.android.BillingSMSReceiver">
-		  <intent-filter>
-		    <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
-		  </intent-filter>
-		</receiver>
-		
-		<uses-feature android:name="android.hardware.telephony" android:required="false"></uses-feature>
+	<uses-feature android:name="android.hardware.telephony" android:required="false"></uses-feature>
 		
 *screenSize添加时如果出现错误，请更改targetSdkVersion为13以上即可*	
 
@@ -173,8 +200,8 @@ Context传递当前Activity即可
 
 需要如下三个步骤: ::
 
-		//若未设置过commonUid,则需要设置uid才能去支付
-		//PayCore.setUid("elex337_12345");
+		//此方法不建议使用使用只在兼容老版本代码或者单独接入支付的时候使用，如果已经接入了用户模块则SDK会自动获取已经登陆用户的UID。
+		//Settings.setCommonUid("elex337_12345");
 				
 		//设置角色id，回调时会回调此id，若未设置，则角色id为uid
 		PayCore.setRoleId("abcde12345");

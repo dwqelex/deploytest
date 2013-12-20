@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>用户登录模块集成 &mdash; doctest 1.0 文档</title>
+    <title>引入lib工程 &mdash; doctest 1.0 文档</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
     <link rel="next" title="移动支付集成" href="payment.html" />
-    <link rel="prev" title="快速集成" href="quickstart.html" /> 
+    <link rel="prev" title="引入337lib工程" href="quickstart.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,7 +39,7 @@
           <a href="payment.html" title="移动支付集成"
              accesskey="N">下一页</a> |</li>
         <li class="right" >
-          <a href="quickstart.html" title="快速集成"
+          <a href="quickstart.html" title="引入337lib工程"
              accesskey="P">上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>
@@ -48,19 +48,16 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">內容目录</a></h3>
   <ul>
-<li><a class="reference internal" href="#">用户登录模块集成</a><ul>
-<li><a class="reference internal" href="#lib">引入lib工程</a></li>
+<li><a class="reference internal" href="#">引入lib工程</a></li>
 <li><a class="reference internal" href="#manifest">在Manifest文件添加必要的声明</a></li>
-<li><a class="reference internal" href="#id2">获取用户信息</a></li>
-<li><a class="reference internal" href="#id3">自定义用户登录界面</a></li>
-<li><a class="reference internal" href="#id4">其他方法</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#id1">获取用户信息</a></li>
+<li><a class="reference internal" href="#id2">自定义用户登录界面</a></li>
+<li><a class="reference internal" href="#id3">其他方法</a></li>
 </ul>
 
   <h4>上一个主题</h4>
   <p class="topless"><a href="quickstart.html"
-                        title="上一章">快速集成</a></p>
+                        title="上一章">引入337lib工程</a></p>
   <h4>下一个主题</h4>
   <p class="topless"><a href="payment.html"
                         title="下一章">移动支付集成</a></p>
@@ -90,14 +87,12 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="id1">
-<h1>用户登录模块集成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<div class="section" id="lib">
-<h2>引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h2>
+  <div class="section" id="lib">
+<h1>引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h1>
 <p>请参照快速集成中（引入337lib工程）</p>
 </div>
 <div class="section" id="manifest">
-<h2>在Manifest文件添加必要的声明<a class="headerlink" href="#manifest" title="永久链接至标题">¶</a></h2>
+<h1>在Manifest文件添加必要的声明<a class="headerlink" href="#manifest" title="永久链接至标题">¶</a></h1>
 <p>需要添加内容入下:</p>
 <div class="highlight-python"><pre>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;
 &lt;uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/&gt;
@@ -114,6 +109,10 @@ android:theme="@style/mobile337user"/&gt;
 android:name="com.facebook.LoginActivity"
 android:theme="@android:style/Theme.Translucent"/&gt;
 
+&lt;activity
+android:name="com.web337.android.user.GoogleAcountLogin"
+android:configChanges="orientation|keyboardHidden"/&gt;
+
 &lt;meta-data
 android:name="com.facebook.sdk.ApplicationId"
 android:value="\ 156198457906087"/&gt;
@@ -124,8 +123,8 @@ android:configChanges="orientation|keyboardHidden|screenSize"
 android:launchMode="singleTask"/&gt;</pre>
 </div>
 </div>
-<div class="section" id="id2">
-<h2>获取用户信息<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id1">
+<h1>获取用户信息<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
 <p>应用可以通过直接调用 <tt class="docutils literal"><span class="pre">UserCore.checkLogin(Context</span> <span class="pre">c,UserLoginCallback</span> <span class="pre">callback)</span></tt> 然后在 <tt class="docutils literal"><span class="pre">UserLoginCallback</span></tt> 中获取用户信息。而不需要关心是否注册等细节。在 <tt class="docutils literal"><span class="pre">UserLoginCallback</span></tt> 接口中有两个方法</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">onLoginSuccess(User</span> <span class="pre">u,boolean</span> <span class="pre">isRegist)</span></tt></li>
@@ -136,16 +135,16 @@ android:launchMode="singleTask"/&gt;</pre>
 </ul>
 <p>如果用户在弹出的登录-注册界面没有登录或者注册，则回调此方法</p>
 </div>
-<div class="section" id="id3">
-<h2>自定义用户登录界面<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h1>自定义用户登录界面<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
 <p>如果您希望使用个性化的登录界面，你有以下两种选择：</p>
 <ul class="simple">
 <li>直接更改SDK提供的登录界面布局文件 <tt class="docutils literal"><span class="pre">/res/layout/mobilev2_337_user_login.xml</span></tt> ，需要注意的是您可以任意更改此布局文件的样式，但是请务必保证每个组件的功能和ID不要变更。</li>
 <li>完全使用自己的布局文件。然后调用SDK中的接口来使用相应功能，可以调用的方法请参照下一节</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>其他方法<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h1>其他方法<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
 <ol class="arabic">
 <li><p class="first">获取当前登录用户：</p>
 <p><tt class="docutils literal"><span class="pre">UserCore.getLoginUser();</span></tt></p>
@@ -177,30 +176,21 @@ android:launchMode="singleTask"/&gt;</pre>
 </li>
 </ol>
 <blockquote>
-<div><p>先增加一个Activity</p>
-<div class="highlight-python"><pre>&lt;activity
-        android:name="com.web337.android.widget.Web"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:launchMode="singleTask"&gt;
-&lt;/activity&gt;</pre>
-</div>
-<p>调用方法打开页面：</p>
-<blockquote>
-<div><tt class="docutils literal"><span class="pre">UserCore.showUserInfo(Activity);</span></tt></div></blockquote>
+<div><p>调用方法打开页面：</p>
+<p><tt class="docutils literal"><span class="pre">UserCore.showUserInfo(Activity);</span></tt></p>
 <p>当前无337登录用户时，方法返回false，当前有337登录用户时，方法返回true，并打开用户个人信息页。玩家可以在此页面进行更改个人信息、更改密码、切换账户等操作。</p>
 <p>如果玩家在个人信息页切换了账户，当玩家关闭个人信息页时，SDK会将新的用户回调给开发者。回调方法的设置如下：</p>
 <div class="highlight-python"><pre>UserCore.setOnChangeUserListener(new com.web337.android.user.UserCore.OnChangeUserListener(){
-        @Override
-        public void onChange(User u) {
-                if(u != null){
-                        alert("更改用户："+u.getUsername());
-                }else{
-                        alert("退出登录");
-                }
+ @Override
+ public void onChange(User u) {
+        if(u != null){
+                alert("更改用户："+u.getUsername());
+        }else{
+                alert("退出登录");
+        }
 }});</pre>
 </div>
 </div></blockquote>
-</div>
 </div>
 
 
@@ -219,7 +209,7 @@ android:launchMode="singleTask"/&gt;</pre>
           <a href="payment.html" title="移动支付集成"
              >下一页</a> |</li>
         <li class="right" >
-          <a href="quickstart.html" title="快速集成"
+          <a href="quickstart.html" title="引入337lib工程"
              >上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>

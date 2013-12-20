@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>移动支付集成 &mdash; doctest 1.0 文档</title>
+    <title>玩家支付流程 &mdash; doctest 1.0 文档</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
-    <link rel="next" title="337移动支付服务端回调及验证说明" href="server.html" />
-    <link rel="prev" title="用户登录模块集成" href="userlogin.html" /> 
+    <link rel="next" title="概述" href="server.html" />
+    <link rel="prev" title="引入lib工程" href="userlogin.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,10 +36,10 @@
           <a href="genindex.html" title="总目录"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="server.html" title="337移动支付服务端回调及验证说明"
+          <a href="server.html" title="概述"
              accesskey="N">下一页</a> |</li>
         <li class="right" >
-          <a href="userlogin.html" title="用户登录模块集成"
+          <a href="userlogin.html" title="引入lib工程"
              accesskey="P">上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>
@@ -48,25 +48,22 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">內容目录</a></h3>
   <ul>
-<li><a class="reference internal" href="#">移动支付集成</a><ul>
-<li><a class="reference internal" href="#id2">玩家支付流程</a></li>
-<li><a class="reference internal" href="#id3">准备工作</a></li>
+<li><a class="reference internal" href="#">玩家支付流程</a></li>
+<li><a class="reference internal" href="#id2">准备工作</a></li>
 <li><a class="reference internal" href="#lib">在应用中引入lib工程</a></li>
 <li><a class="reference internal" href="#manifest">在Manifest文件添加必要的声明</a></li>
 <li><a class="reference internal" href="#paycore">初始化PayCore</a></li>
-<li><a class="reference internal" href="#id4">支付准备</a></li>
-<li><a class="reference internal" href="#id5">发起支付</a></li>
-<li><a class="reference internal" href="#id6">其他说明</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#id3">支付准备</a></li>
+<li><a class="reference internal" href="#id4">发起支付</a></li>
+<li><a class="reference internal" href="#id5">其他说明</a></li>
 </ul>
 
   <h4>上一个主题</h4>
   <p class="topless"><a href="userlogin.html"
-                        title="上一章">用户登录模块集成</a></p>
+                        title="上一章">引入lib工程</a></p>
   <h4>下一个主题</h4>
   <p class="topless"><a href="server.html"
-                        title="下一章">337移动支付服务端回调及验证说明</a></p>
+                        title="下一章">概述</a></p>
   <h3>本页</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/payment.txt"
@@ -94,24 +91,22 @@
           <div class="body">
             
   <div class="section" id="id1">
-<h1>移动支付集成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<div class="section" id="id2">
-<h2>玩家支付流程<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<h1>玩家支付流程<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
 <p>托管模式下，玩家点击购买按钮，触发支付行为，SDK会根据玩家支付的币种动态选择出相应的支付渠道列表和从服务器端设置好的物品包价格，玩家可以选择自己需要的物品包并通过合适的渠道进行支付，玩家付款之后，支付平台会向应用提供的回调地址发送通知，同时前端获取支付结果。</p>
 <p>代理模式下，由应用构造出订单传递给SDK，SDK为玩家弹出付款页面，玩家付款之后，支付平台会向应用提供的回调地址发送通知，同时前端获取支付结果。</p>
 </div>
-<div class="section" id="id3">
-<h2>准备工作<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h1>准备工作<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
 <p>在准备计入之前首先需要从运营方获获取appid,appid作为接入系统的标识，是一个单独的统计单元，且都有各自的配置。一个项目下允许有多个appid。</p>
 <p>应用需要提供一个回调地址接收支付结果的通知，对于单机版无服务端的应用可以忽略这项配置。但对于需要联网的应用建议都采用服务端对服务端的通知模式，以确保交易安全。具体的回调地址规则请参见服务端回调验证文档。</p>
 <p>当您获取了appid，并设置了回调地址之后就可以开始集成支付组件了。</p>
 </div>
 <div class="section" id="lib">
-<h2>在应用中引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h2>
+<h1>在应用中引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h1>
 <p>请参照快速集成中（引入337lib工程）</p>
 </div>
 <div class="section" id="manifest">
-<h2>在Manifest文件添加必要的声明<a class="headerlink" href="#manifest" title="永久链接至标题">¶</a></h2>
+<h1>在Manifest文件添加必要的声明<a class="headerlink" href="#manifest" title="永久链接至标题">¶</a></h1>
 <p>需要添加内容入下:</p>
 <div class="highlight-python"><pre>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;
 &lt;uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/&gt;
@@ -135,9 +130,6 @@ android:configChanges="orientation|keyboardHidden|screenSize"/&gt;
 android:name="com.web337.android.pay.PayShowPackagesActivity"
 android:configChanges="orientation|keyboardHidden|screenSize" /&gt;
 
-&lt;service android:name="com.fortumo.android.FortumoService" /&gt;
-&lt;service android:name="com.fortumo.android.StatusUpdateService" /&gt;
-
 &lt;activity
 android:name="com.fortumo.android.FortumoActivity"
 android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;
@@ -145,11 +137,21 @@ android:theme="@android:style/Theme.Translucent.NoTitleBar" /&gt;
 &lt;activity
 android:name="com.web337.android.pay.fortumo.FortumoActivity"
 android:theme="@android:style/Theme.Translucent.NoTitleBar"
-android:configChanges="orientation|keyboardHidden|screenSize" /&gt;</pre>
+android:configChanges="orientation|keyboardHidden|screenSize" /&gt;
+
+&lt;receiver android:name="com.fortumo.android.BillingSMSReceiver" &gt;
+        &lt;intent-filter&gt;
+                &lt;action android:name="android.provider.Telephony.SMS_RECEIVED" &gt;
+                &lt;/action&gt;
+        &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+
+&lt;service android:name="com.fortumo.android.FortumoService" /&gt;
+&lt;service android:name="com.fortumo.android.StatusUpdateService" /&gt;</pre>
 </div>
 </div>
 <div class="section" id="paycore">
-<h2>初始化PayCore<a class="headerlink" href="#paycore" title="永久链接至标题">¶</a></h2>
+<h1>初始化PayCore<a class="headerlink" href="#paycore" title="永久链接至标题">¶</a></h1>
 <p>通过调用 <tt class="docutils literal"><span class="pre">PayCore.init(Context</span> <span class="pre">context,String</span> <span class="pre">appid,PayCallback</span> <span class="pre">back)</span></tt> 方法来进行初始化。</p>
 <p>第一个参数Context,传递当前的activity即可。</p>
 <p>第二个参数appid，要传应用获得的appid。</p>
@@ -161,12 +163,12 @@ android:configChanges="orientation|keyboardHidden|screenSize" /&gt;</pre>
 <p><tt class="docutils literal"><span class="pre">onFailed(Msg</span> <span class="pre">msg)</span></tt>                             支付失败</p>
 </div></blockquote>
 </div>
-<div class="section" id="id4">
-<h2>支付准备<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h1>支付准备<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
 <p>必须确保当前已经为支付模块设置过uid才能发起支付。</p>
 <p>设置uid有以下几种方法：</p>
 <ol class="arabic simple">
-<li>使用Settings.setCommonUid,该方法需要在支付初始化之前设置，设置之后，支付模块在初始化时会使用该方法设置的uid。</li>
+<li>使用Settings.setCommonUid,该方法需要在支付初始化之前设置，设置之后，支付模块在初始化时会使用该方法设置的uid。（在引入IdZone之后这个方法已经过时，只用于兼容旧版代码和单独接入支付时使用）</li>
 <li>使用337用户id，若未使用Commonuid，若在支付初始化之前已经登录了337uid，则支付模块在初始化时会使用用户的337uid。</li>
 <li>发起支付前设置，使用PayCore.setUid(id)方法，可以在发起支付前设置uid。</li>
 </ol>
@@ -180,8 +182,8 @@ android:configChanges="orientation|keyboardHidden|screenSize" /&gt;</pre>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>发起支付<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h1>发起支付<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h1>
 <ul class="simple">
 <li>代理模式:</li>
 </ul>
@@ -233,10 +235,9 @@ android:configChanges="orientation|keyboardHidden|screenSize" /&gt;</pre>
 <p>SDK会直接展示在后台预设好的物品包金额，从而方便用户进行快速支付。</p>
 <p><em>两种支付模式是并列的，不能同时使用。代理模式一般需要将需要购买的物品金额等信息配置在应用内部，然后作为参数进行支付，而托管模式全部参数都在服务器端配置，可以灵活的调整物品包的金额种类等</em></p>
 </div>
-<div class="section" id="id6">
-<h2>其他说明<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id5">
+<h1>其他说明<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h1>
 <p>单机版无服务端的应用可以通过PayCallback来获取支付结果，这部分的回调可能会有一些延迟。</p>
-</div>
 </div>
 
 
@@ -252,10 +253,10 @@ android:configChanges="orientation|keyboardHidden|screenSize" /&gt;</pre>
           <a href="genindex.html" title="总目录"
              >索引</a></li>
         <li class="right" >
-          <a href="server.html" title="337移动支付服务端回调及验证说明"
+          <a href="server.html" title="概述"
              >下一页</a> |</li>
         <li class="right" >
-          <a href="userlogin.html" title="用户登录模块集成"
+          <a href="userlogin.html" title="引入lib工程"
              >上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>

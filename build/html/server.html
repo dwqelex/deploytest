@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>337移动支付服务端回调及验证说明 &mdash; doctest 1.0 文档</title>
+    <title>概述 &mdash; doctest 1.0 文档</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
-    <link rel="next" title="第三方广告及统计SDK" href="othersdk.html" />
-    <link rel="prev" title="移动支付集成" href="payment.html" /> 
+    <link rel="next" title="目前该组件接入的SDK有" href="othersdk.html" />
+    <link rel="prev" title="玩家支付流程" href="payment.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,10 +36,10 @@
           <a href="genindex.html" title="总目录"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="othersdk.html" title="第三方广告及统计SDK"
+          <a href="othersdk.html" title="目前该组件接入的SDK有"
              accesskey="N">下一页</a> |</li>
         <li class="right" >
-          <a href="payment.html" title="移动支付集成"
+          <a href="payment.html" title="玩家支付流程"
              accesskey="P">上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>
@@ -48,20 +48,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">內容目录</a></h3>
   <ul>
-<li><a class="reference internal" href="#">337移动支付服务端回调及验证说明</a><ul>
-<li><a class="reference internal" href="#id2">概述</a></li>
-<li><a class="reference internal" href="#id3">回调环节</a></li>
-<li><a class="reference internal" href="#id4">安全验证</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">概述</a></li>
+<li><a class="reference internal" href="#id2">回调环节</a></li>
+<li><a class="reference internal" href="#id3">安全验证</a></li>
 </ul>
 
   <h4>上一个主题</h4>
   <p class="topless"><a href="payment.html"
-                        title="上一章">移动支付集成</a></p>
+                        title="上一章">玩家支付流程</a></p>
   <h4>下一个主题</h4>
   <p class="topless"><a href="othersdk.html"
-                        title="下一章">第三方广告及统计SDK</a></p>
+                        title="下一章">目前该组件接入的SDK有</a></p>
   <h3>本页</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/server.txt"
@@ -89,15 +86,13 @@
           <div class="body">
             
   <div class="section" id="id1">
-<h1>337移动支付服务端回调及验证说明<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<div class="section" id="id2">
-<h2>概述<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<h1>概述<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
 <p>在用户支付完成之后，支付平台会将支付结果通知到应用提供的回调地址，应用接收到回调后，应该根据结果给用户提供相应的商品，并给支付平台返回一个事先约定好的结果。至此一笔交易在支付平台才算完成。</p>
 <p>当应用没有返回要求的结果时，支付平台最多会回调3次，3次不成功之后，当前交易会被设置为失败交易，之后会有客服介入，手动处理失败交易。</p>
 <p>为了保证应用方收到的数据是由支付平台发送而非第三方伪造，支付平台提供了二次验证的方式，应用服务端在收到回调通知之后，可以拿收到的数据到支付平台提供的接口进行验证，若验证通过，则说明该通知真实可信。</p>
 </div>
-<div class="section" id="id3">
-<h2>回调环节<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h1>回调环节<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
 <p>应用需要提供一个回调地址来接收回调参数</p>
 <p>支付平台会使用post方式发送以下参数：</p>
 <ul class="simple">
@@ -122,11 +117,10 @@
 </ul>
 <p>如果3次回调后应用服务端未按规则返回，则该交易失败，等待客服处理。</p>
 </div>
-<div class="section" id="id4">
-<h2>安全验证<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h1>安全验证<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
 <p>安全验证机制可以保证应用服务端收到的回调确实是由支付平台发起而非第三方伪造。</p>
 <p>具体的验证方法详见：<a class="reference external" href="https://code.google.com/p/elexpublish/wiki/Payment">https://code.google.com/p/elexpublish/wiki/Payment</a>/howto#验证交易信息</p>
-</div>
 </div>
 
 
@@ -142,10 +136,10 @@
           <a href="genindex.html" title="总目录"
              >索引</a></li>
         <li class="right" >
-          <a href="othersdk.html" title="第三方广告及统计SDK"
+          <a href="othersdk.html" title="目前该组件接入的SDK有"
              >下一页</a> |</li>
         <li class="right" >
-          <a href="payment.html" title="移动支付集成"
+          <a href="payment.html" title="玩家支付流程"
              >上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>

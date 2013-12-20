@@ -1,6 +1,3 @@
-============
-移动支付集成
-============
 
 玩家支付流程
 ------------
@@ -47,9 +44,6 @@
 	android:name="com.web337.android.pay.PayShowPackagesActivity" 
 	android:configChanges="orientation|keyboardHidden|screenSize" />
 
-	<service android:name="com.fortumo.android.FortumoService" />
-	<service android:name="com.fortumo.android.StatusUpdateService" />
-
 	<activity 
 	android:name="com.fortumo.android.FortumoActivity" 
 	android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -58,6 +52,16 @@
 	android:name="com.web337.android.pay.fortumo.FortumoActivity" 
 	android:theme="@android:style/Theme.Translucent.NoTitleBar" 
 	android:configChanges="orientation|keyboardHidden|screenSize" />
+	
+	<receiver android:name="com.fortumo.android.BillingSMSReceiver" >
+		<intent-filter>
+			<action android:name="android.provider.Telephony.SMS_RECEIVED" >
+			</action>
+		</intent-filter>
+	</receiver>
+
+	<service android:name="com.fortumo.android.FortumoService" />
+	<service android:name="com.fortumo.android.StatusUpdateService" />
 	
 初始化PayCore
 -------------
@@ -85,7 +89,7 @@
 
 设置uid有以下几种方法：
 
-#. 使用Settings.setCommonUid,该方法需要在支付初始化之前设置，设置之后，支付模块在初始化时会使用该方法设置的uid。
+#. 使用Settings.setCommonUid,该方法需要在支付初始化之前设置，设置之后，支付模块在初始化时会使用该方法设置的uid。（在引入IdZone之后这个方法已经过时，只用于兼容旧版代码和单独接入支付时使用）
  
 #. 使用337用户id，若未使用Commonuid，若在支付初始化之前已经登录了337uid，则支付模块在初始化时会使用用户的337uid。
  

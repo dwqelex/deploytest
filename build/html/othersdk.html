@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>第三方广告及统计SDK &mdash; doctest 1.0 文档</title>
+    <title>目前该组件接入的SDK有 &mdash; doctest 1.0 文档</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
-    <link rel="prev" title="337移动支付服务端回调及验证说明" href="server.html" /> 
+    <link rel="next" title="在应用中引入lib工程" href="ticket.html" />
+    <link rel="prev" title="概述" href="server.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +36,10 @@
           <a href="genindex.html" title="总目录"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="server.html" title="337移动支付服务端回调及验证说明"
+          <a href="ticket.html" title="在应用中引入lib工程"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="概述"
              accesskey="P">上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>
@@ -44,25 +48,25 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">內容目录</a></h3>
   <ul>
-<li><a class="reference internal" href="#">第三方广告及统计SDK</a><ul>
-<li><a class="reference internal" href="#id1">目前该组件接入的SDK有</a></li>
+<li><a class="reference internal" href="#">目前该组件接入的SDK有</a></li>
 <li><a class="reference internal" href="#lib">在应用中引入lib工程</a></li>
-<li><a class="reference internal" href="#id2">开始集成</a></li>
+<li><a class="reference internal" href="#id1">开始集成</a></li>
 <li><a class="reference internal" href="#tapjop">集成Tapjop</a></li>
 <li><a class="reference internal" href="#facebook">集成Facebook</a></li>
 <li><a class="reference internal" href="#chartboost">集成Chartboost</a></li>
 <li><a class="reference internal" href="#google-analytics">集成Google Analytics</a></li>
 <li><a class="reference internal" href="#hasoffers">集成hasoffers</a></li>
 <li><a class="reference internal" href="#fiksu">集成FIKSU</a></li>
-<li><a class="reference internal" href="#id3">自定义初始化</a></li>
-<li><a class="reference internal" href="#id4">其他方法</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#id2">自定义初始化</a></li>
+<li><a class="reference internal" href="#id3">其他方法</a></li>
 </ul>
 
   <h4>上一个主题</h4>
   <p class="topless"><a href="server.html"
-                        title="上一章">337移动支付服务端回调及验证说明</a></p>
+                        title="上一章">概述</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="ticket.html"
+                        title="下一章">在应用中引入lib工程</a></p>
   <h3>本页</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/othersdk.txt"
@@ -90,9 +94,7 @@
           <div class="body">
             
   <div class="section" id="sdk">
-<h1>第三方广告及统计SDK<a class="headerlink" href="#sdk" title="永久链接至标题">¶</a></h1>
-<div class="section" id="id1">
-<h2>目前该组件接入的SDK有<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<h1>目前该组件接入的SDK有<a class="headerlink" href="#sdk" title="永久链接至标题">¶</a></h1>
 <ul class="simple">
 <li>Tapjoy</li>
 <li>Facebook</li>
@@ -104,11 +106,11 @@
 <p>之后会逐渐添加更多的第三方SDK。</p>
 </div>
 <div class="section" id="lib">
-<h2>在应用中引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h2>
+<h1>在应用中引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h1>
 <p>请参照快速集成中（引入337lib工程）</p>
 </div>
-<div class="section" id="id2">
-<h2>开始集成<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id1">
+<h1>开始集成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
 <ol class="arabic">
 <li><p class="first">在OnCreate方法中调用</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">SdkCore</span><span class="o">.</span><span class="n">initAll</span><span class="p">(</span><span class="n">Activity</span><span class="p">);</span>
@@ -140,7 +142,7 @@
 <div><strong>3-6参数一般使用this来传递当前activity即可</strong></div></blockquote>
 </div>
 <div class="section" id="tapjop">
-<h2>集成Tapjop<a class="headerlink" href="#tapjop" title="永久链接至标题">¶</a></h2>
+<h1>集成Tapjop<a class="headerlink" href="#tapjop" title="永久链接至标题">¶</a></h1>
 <p>添加Activitys声明:</p>
 <div class="highlight-python"><pre>&lt;activity
 android:name="com.tapjoy.TJCOffersWebView"
@@ -175,7 +177,7 @@ android:name="337_TAPJOY_APPKEY"&gt;&lt;/meta-data&gt;</pre>
 <p>引入 <strong>tapjoyconnectlibrary.jar</strong> 文件</p>
 </div>
 <div class="section" id="facebook">
-<h2>集成Facebook<a class="headerlink" href="#facebook" title="永久链接至标题">¶</a></h2>
+<h1>集成Facebook<a class="headerlink" href="#facebook" title="永久链接至标题">¶</a></h1>
 <p>添加meta-data声明:</p>
 <div class="highlight-python"><pre>&lt;meta-data android:value="请填写您获得的Facebook的AppID"
 android:name="337_FACEBOOK_APPID"&gt;&lt;/meta-data&gt;</pre>
@@ -183,7 +185,7 @@ android:name="337_FACEBOOK_APPID"&gt;&lt;/meta-data&gt;</pre>
 <p>引入 <strong>FacebookSDK lib</strong> 工程</p>
 </div>
 <div class="section" id="chartboost">
-<h2>集成Chartboost<a class="headerlink" href="#chartboost" title="永久链接至标题">¶</a></h2>
+<h1>集成Chartboost<a class="headerlink" href="#chartboost" title="永久链接至标题">¶</a></h1>
 <p>添加meta-data声明:</p>
 <div class="highlight-python"><pre>&lt;meta-data android:value="请填写您获得的Chartboost的AppID"
 android:name="337_CHARTBOOST_APPID"&gt;&lt;/meta-data&gt;
@@ -193,7 +195,7 @@ android:name="337_CHARTBOOST_APPKEY"&gt;&lt;/meta-data&gt;</pre>
 <p>引入 <strong>chartboost.jar</strong></p>
 </div>
 <div class="section" id="google-analytics">
-<h2>集成Google Analytics<a class="headerlink" href="#google-analytics" title="永久链接至标题">¶</a></h2>
+<h1>集成Google Analytics<a class="headerlink" href="#google-analytics" title="永久链接至标题">¶</a></h1>
 <p>在工程中/res/values/目录下，新建一个analytics.xml文件，内容如下:</p>
 <div class="highlight-python"><pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;resources xmlns:tools="http://schemas.android.com/tools"
@@ -210,7 +212,7 @@ tools:ignore="TypographyDashes"&gt;
 <p>引入 <strong>libGoogleAnalyticsV2.jar</strong></p>
 </div>
 <div class="section" id="hasoffers">
-<h2>集成hasoffers<a class="headerlink" href="#hasoffers" title="永久链接至标题">¶</a></h2>
+<h1>集成hasoffers<a class="headerlink" href="#hasoffers" title="永久链接至标题">¶</a></h1>
 <p>添加meta-data声明:</p>
 <div class="highlight-python"><pre>&lt;meta-dataandroid:value="请填写您获得的Hasoffers的Advertiser ID"
 android:name="337_HASOFFERS_APPID"&gt;&lt;/meta-data&gt;
@@ -228,7 +230,7 @@ android:exported="true"&gt;
 </div>
 </div>
 <div class="section" id="fiksu">
-<h2>集成FIKSU<a class="headerlink" href="#fiksu" title="永久链接至标题">¶</a></h2>
+<h1>集成FIKSU<a class="headerlink" href="#fiksu" title="永久链接至标题">¶</a></h1>
 <p>添加meta-data声明:</p>
 <div class="highlight-python"><pre>&lt;meta-data android:value="on" android:name="337_FIKSU_ON"&gt;&lt;/meta-data&gt;</pre>
 </div>
@@ -256,15 +258,15 @@ android:exported="true"&gt;
 &lt;/receiver&gt;</pre>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>自定义初始化<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h1>自定义初始化<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
 <p>若应用不想采用在AndroidManifest.xml文件中加meta-data的方式进行统一初始化，则可以调用SDK提供的自定义初始化方法， SDK提供了initXXXX的方法来方便应用调用，比如</p>
 <div class="highlight-python"><pre>SdkCore.initTapjoy(Context context,String appID,String secretKey);</pre>
 </div>
 <p>传递相应的参数后即可进行初始化。 <strong>应用可以自由决定如何使用该类方法</strong></p>
 </div>
-<div class="section" id="id4">
-<h2>其他方法<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h1>其他方法<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
 <ul class="simple">
 <li>部分第三方SDK提供一些事件统计，337SDK整合了部分方法</li>
 </ul>
@@ -296,7 +298,6 @@ android:exported="true"&gt;
 </li>
 </ul>
 </div>
-</div>
 
 
           </div>
@@ -311,7 +312,10 @@ android:exported="true"&gt;
           <a href="genindex.html" title="总目录"
              >索引</a></li>
         <li class="right" >
-          <a href="server.html" title="337移动支付服务端回调及验证说明"
+          <a href="ticket.html" title="在应用中引入lib工程"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="概述"
              >上一页</a> |</li>
         <li><a href="index.html">doctest 1.0 文档</a> &raquo;</li> 
       </ul>

@@ -1,6 +1,4 @@
-================
-用户登录模块集成
-================
+
 
 引入lib工程
 -----------
@@ -25,6 +23,10 @@
 	<activity 
 	android:name="com.facebook.LoginActivity" 
 	android:theme="@android:style/Theme.Translucent"/>
+	
+	<activity
+	android:name="com.web337.android.user.GoogleAcountLogin"
+	android:configChanges="orientation|keyboardHidden"/>
 
 	<meta-data 
 	android:name="com.facebook.sdk.ApplicationId" 
@@ -95,29 +97,22 @@
 
 #. 个人信息页：
 
- 先增加一个Activity ::
-
-	<activity 
-		android:name="com.web337.android.widget.Web" 
-		android:configChanges="orientation|keyboardHidden|screenSize" 
-		android:launchMode="singleTask">
-	</activity>
 
  调用方法打开页面：
 
-	``UserCore.showUserInfo(Activity);``
+ ``UserCore.showUserInfo(Activity);``
 	
  当前无337登录用户时，方法返回false，当前有337登录用户时，方法返回true，并打开用户个人信息页。玩家可以在此页面进行更改个人信息、更改密码、切换账户等操作。
 
  如果玩家在个人信息页切换了账户，当玩家关闭个人信息页时，SDK会将新的用户回调给开发者。回调方法的设置如下： ::
 
 	UserCore.setOnChangeUserListener(new com.web337.android.user.UserCore.OnChangeUserListener(){
-		@Override
-		public void onChange(User u) {
-			if(u != null){
-				alert("更改用户："+u.getUsername());
-			}else{
-				alert("退出登录");
-			}
+	 @Override
+	 public void onChange(User u) {
+		if(u != null){
+			alert("更改用户："+u.getUsername());
+		}else{
+			alert("退出登录");
+		}
 	}});
 

@@ -1,7 +1,8 @@
 
+已经集成的SDK
+-------------
+目前SDK中集成了一下6个第三方SDK
 
-目前该组件接入的SDK有
----------------------
 * Tapjoy
 * Facebook
 * Chartboost

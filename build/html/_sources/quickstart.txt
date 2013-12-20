@@ -200,8 +200,8 @@ Context传递当前Activity即可
 
 需要如下三个步骤: ::
 
-		//此方法不建议使用使用只在兼容老版本代码或者单独接入支付的时候使用，如果已经接入了用户模块则SDK会自动获取已经登陆用户的UID。
-		//Settings.setCommonUid("elex337_12345");
+		//如果用户没有登录且没有设置commandUID则直接调用一下方法设置
+		//PayCore.setUid("elex337_12345");
 				
 		//设置角色id，回调时会回调此id，若未设置，则角色id为uid
 		PayCore.setRoleId("abcde12345");

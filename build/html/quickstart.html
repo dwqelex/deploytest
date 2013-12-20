@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
-    <link rel="next" title="引入lib工程" href="userlogin.html" />
+    <link rel="next" title="在应用中引入lib工程" href="userlogin.html" />
     <link rel="prev" title="337SDK集成文档" href="index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
           <a href="genindex.html" title="总目录"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="userlogin.html" title="引入lib工程"
+          <a href="userlogin.html" title="在应用中引入lib工程"
              accesskey="N">下一页</a> |</li>
         <li class="right" >
           <a href="index.html" title="337SDK集成文档"
@@ -64,7 +64,7 @@
                         title="上一章">337SDK集成文档</a></p>
   <h4>下一个主题</h4>
   <p class="topless"><a href="userlogin.html"
-                        title="下一章">引入lib工程</a></p>
+                        title="下一章">在应用中引入lib工程</a></p>
   <h3>本页</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/quickstart.txt"
@@ -283,8 +283,8 @@ PayCore.init(this, appid, new PayCallback(){
 <div class="section" id="id6">
 <h1>展示套餐<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h1>
 <p>需要如下三个步骤:</p>
-<div class="highlight-python"><pre>//此方法不建议使用使用只在兼容老版本代码或者单独接入支付的时候使用，如果已经接入了用户模块则SDK会自动获取已经登陆用户的UID。
-//Settings.setCommonUid("elex337_12345");
+<div class="highlight-python"><pre>//如果用户没有登录且没有设置commandUID则直接调用一下方法设置
+//PayCore.setUid("elex337_12345");
 
 //设置角色id，回调时会回调此id，若未设置，则角色id为uid
 PayCore.setRoleId("abcde12345");
@@ -308,7 +308,7 @@ PayCore.show();</pre>
           <a href="genindex.html" title="总目录"
              >索引</a></li>
         <li class="right" >
-          <a href="userlogin.html" title="引入lib工程"
+          <a href="userlogin.html" title="在应用中引入lib工程"
              >下一页</a> |</li>
         <li class="right" >
           <a href="index.html" title="337SDK集成文档"

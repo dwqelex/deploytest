@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="doctest 1.0 文档" href="index.html" />
-    <link rel="next" title="目前该组件接入的SDK有" href="othersdk.html" />
+    <link rel="next" title="已经集成的SDK" href="othersdk.html" />
     <link rel="prev" title="玩家支付流程" href="payment.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
           <a href="genindex.html" title="总目录"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="othersdk.html" title="目前该组件接入的SDK有"
+          <a href="othersdk.html" title="已经集成的SDK"
              accesskey="N">下一页</a> |</li>
         <li class="right" >
           <a href="payment.html" title="玩家支付流程"
@@ -50,7 +50,14 @@
   <ul>
 <li><a class="reference internal" href="#">概述</a></li>
 <li><a class="reference internal" href="#id2">回调环节</a></li>
-<li><a class="reference internal" href="#id3">安全验证</a></li>
+<li><a class="reference internal" href="#id3">安全验证</a><ul>
+<li><a class="reference internal" href="#id4">支付原理图</a></li>
+<li><a class="reference internal" href="#id5">回调流程</a></li>
+<li><a class="reference internal" href="#id6">接入流程</a></li>
+<li><a class="reference internal" href="#id7">回调（已过期，请不要再使用）</a></li>
+<li><a class="reference internal" href="#id8">回调（新规则）</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>上一个主题</h4>
@@ -58,7 +65,7 @@
                         title="上一章">玩家支付流程</a></p>
   <h4>下一个主题</h4>
   <p class="topless"><a href="othersdk.html"
-                        title="下一章">目前该组件接入的SDK有</a></p>
+                        title="下一章">已经集成的SDK</a></p>
   <h3>本页</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/server.txt"
@@ -119,8 +126,619 @@
 </div>
 <div class="section" id="id3">
 <h1>安全验证<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
-<p>安全验证机制可以保证应用服务端收到的回调确实是由支付平台发起而非第三方伪造。</p>
-<p>具体的验证方法详见：<a class="reference external" href="https://code.google.com/p/elexpublish/wiki/Payment">https://code.google.com/p/elexpublish/wiki/Payment</a>/howto#验证交易信息</p>
+<p><strong>安全验证机制可以保证应用服务端收到的回调确实是由支付平台发起而非第三方伪造。</strong></p>
+<div class="section" id="id4">
+<h2>支付原理图<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><img alt="_static/payelex_process.png" src="_static/payelex_process.png" />
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h2>回调流程<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>当用户成功付款之后，payelex会向用户提供的callback url发送相应的请求，包含trans_id(参数订单号)，amount(支付虚拟货币数)，user_id(用户标识)，timestamp(时间戳，毫秒)，gross(扣除渠道成本之后的实体货币值)，currency(实体货币单位)，channel(支付渠道)，sig(加密字符串)</li>
+<li>如果callback url返回失败标识，payelex会连续重复调用3次callback url（使用相同的trans_id），如果三次调用都返回失败标识，那么会将该次支付放到failed transaction记录集里边。可能发生的情况是：开发者正在进行停机维护。</li>
+</ul>
+<blockquote>
+<div><p><em>注意：当payelex没有接收到callback url的返回数据，会再次使用相同的trans_id去请求callback url。</em></p>
+<p>为什么会有这种情况发生呢？请看下面的情况：</p>
+<p>假设payelex的服务器是A，开发者的游戏服务器是B</p>
+<ol class="arabic simple">
+<li>A向B发送callback请求</li>
+<li>B接收到这个请求，成功给用户加上了游戏币。返回A成功信号</li>
+<li>网络中断，A没有收到B的成功信号</li>
+<li>A继续使用相同的参数请求B。这时，B发现该交易号已经成功处理了。故直接给A返回成功信号。</li>
+<li>A接收到成功信号，停止请求B。交易完成。</li>
+</ol>
+</div></blockquote>
+<ul class="simple">
+<li>payelex会定期检查failed transaction，向开发者发送邮件，并且再次回调callback url。这个过程将会一直进行下去，直到该支付请求被处理成功。</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>接入流程<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p><strong>1. 注册账号</strong></p>
+<blockquote>
+<div>登陆r.337.com(智明星通Redmine系统),点击我的项目-&gt;XXXX-&gt;平台发布管理，选择某一个已发布的应用，点击编辑-&gt;支付信息。这样，您就可以编辑您的支付应用了。另外，编辑完了之后，记得点击发布支付应用。如果还没有开通账号，请联系liyingxia&#64;elex-tech.com(李迎霞)开通账号。</div></blockquote>
+<p><strong>2. 填写支付应用配置信息</strong></p>
+<blockquote>
+<div><p>支付应用配置信息详解</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="13%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">名称</th>
+<th class="head">中文名称</th>
+<th class="head">说明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>gameName</td>
+<td>支付页面显示的游戏名称</td>
+<td>根据国家不同，名称也需要使用相应国家的语言，例如HappyFarm(英文), Frohe Ernte(德文)</td>
+</tr>
+<tr class="row-odd"><td>country</td>
+<td>国家</td>
+<td>游戏玩家针对的国家，例如:US(美国),UK(英国),CN(中国),PL(波兰)，代码详见 <a class="reference external" href="http://www.iso.org/iso/english_country_names_and_code_elements">http://www.iso.org/iso/english_country_names_and_code_elements</a></td>
+</tr>
+<tr class="row-even"><td>paymentCurrency</td>
+<td>支持货币</td>
+<td>例如USD,EUR,BRL，各个国家支持的货币，请参考文档 <a class="reference external" href="http://code.google.com/p/elexpublish/wiki/Payment/faq#2._主要国家货币代码">主要国家货币代码</a></td>
+</tr>
+<tr class="row-odd"><td>server</td>
+<td>服务器区</td>
+<td>这个是针对web game而言的，如果您的游戏是sns游戏，不需要填写，请填写s1,s2,s3,s4...</td>
+</tr>
+<tr class="row-even"><td>devMail</td>
+<td>开发者邮箱</td>
+<td>当支付应用出现异常，例如回调失败，作弊交易，payelex会在第一时间给开发者邮箱发送报警邮件</td>
+</tr>
+<tr class="row-odd"><td>adminUserIds</td>
+<td>测试账号</td>
+<td>逗号分隔的uid字符串，用于在测试环境下面进行支付测试，只有这些用户能够进行测试，使用其他用户支付会抛出异常</td>
+</tr>
+<tr class="row-even"><td>callbackUrl</td>
+<td>回调地址</td>
+<td>当用户支付完成之后，payelex会向该地址POST支付数据，给用户充值虚拟货币</td>
+</tr>
+<tr class="row-odd"><td>secretKey</td>
+<td>回调接口密钥</td>
+<td>用于加密payelex和游戏服务器之间传输的支付数据</td>
+</tr>
+<tr class="row-even"><td>currencyName</td>
+<td>游戏币名称</td>
+<td>再支付页面上显示给玩家看的，需要根据国家使用多语言，例如:FarmCredits(英语),Bauerngeld(德语)，人民币(中文)，只需要填写其中一种语言即可</td>
+</tr>
+<tr class="row-odd"><td>vcurrencyLogo</td>
+<td>游戏币图标</td>
+<td>再支付页面上显示给玩家看的，例如http://static.elex-tech.us/mb/Bauerngeld.png</td>
+</tr>
+<tr class="row-even"><td>conversionMap</td>
+<td>兑换比例</td>
+<td>设置真实货币和虚拟货币之间的购买关系,详见 <a class="reference external" href="http://code.google.com/p/elexpublish/wiki/Payment/faq#1._兑换比例如何设置">如何设置兑换比例</a></td>
+</tr>
+</tbody>
+</table>
+<p>支付应用样例配置</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">字段</th>
+<th class="head">样例值</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>支付页面显示的游戏名称</td>
+<td>Frohe Ernte</td>
+</tr>
+<tr class="row-odd"><td>国家</td>
+<td>DE</td>
+</tr>
+<tr class="row-even"><td>支持货币</td>
+<td>EUR</td>
+</tr>
+<tr class="row-odd"><td>开发者邮箱</td>
+<td><a class="reference external" href="mailto:zhoufan&#37;&#52;&#48;elex-tech&#46;com">zhoufan<span>&#64;</span>elex-tech<span>&#46;</span>com</a></td>
+</tr>
+<tr class="row-even"><td>测试账号</td>
+<td>uid1,uid2</td>
+</tr>
+<tr class="row-odd"><td>回调地址</td>
+<td><a class="reference external" href="http://www.elex-tech.com/farm_de/payment/callback.php">http://www.elex-tech.com/farm_de/payment/callback.php</a></td>
+</tr>
+<tr class="row-even"><td>回调密钥</td>
+<td>12345</td>
+</tr>
+<tr class="row-odd"><td>游戏币名称</td>
+<td>Bauerngeld</td>
+</tr>
+<tr class="row-even"><td>游戏币图标</td>
+<td><a class="reference external" href="http://static.elex-tech.us/mb/Bauerngeld.png">http://static.elex-tech.us/mb/Bauerngeld.png</a></td>
+</tr>
+<tr class="row-odd"><td>兑换比例</td>
+<td>真实货币一栏填写1，虚拟货币一栏填写10</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>3. 支付测试</strong></p>
+<p>创建好了支付应用之后，游戏就可以进行测试了，请使用以下的测试账号，如何使用，请参考文档 <a class="reference external" href="https://code.google.com/p/elexpublish/wiki/steps">支付接入详细流程</a> ：:</p>
+<div class="highlight-python"><pre>用户名:elex_test_customer@elex-tech.com
+密码:h7GAAnTzvkKwUOyTaoH2</pre>
+</div>
+<p><strong>4. 发布支付应用</strong></p>
+<p>测试完成之后，点击配置页面的 发布支付应用 链接，发布该应用到生产环境。</p>
+<p><strong>注意:在发布之前，会对应用的配置进行如下检测</strong></p>
+<ol class="arabic simple">
+<li>adminUserIds是否设置</li>
+<li>callbackUrl是否设置</li>
+<li>callback是否正确返回。payelex会POST数据到回调地址，检测如下的几种返回情况：</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>3,null: 出错，例如signature验证不通过</li>
+<li>3,94a0acb127ef8ee8c925e3944941ce5e: 用户uid不存在</li>
+<li>3,$uid: $uid会被用户的平台uid替代，这种返回结果表示成功返回</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h2>回调（已过期，请不要再使用）<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p><strong>回调处理流程图</strong></p>
+<blockquote>
+<div><img alt="_static/callback_process_flow.png" src="_static/callback_process_flow.png" />
+</div></blockquote>
+<p><strong>回调格式</strong></p>
+<p><tt class="docutils literal"><span class="pre">http://www.example.com/callback_url?trans_id=[TRANS_ID]&amp;amount=[AMOUNT]&amp;user_id=[USER_ID]&amp;timestamp=[TIMESTAMP]&amp;sig=[SIG]&amp;gross=[GROSS]&amp;currency=[CURRENCY]&amp;channel=[CHANNEL]</span></tt></p>
+<p><strong>回调方法</strong></p>
+<p>POST</p>
+<p><strong>参数说明</strong></p>
+<ul class="simple">
+<li>trans_id : 唯一标示这次支付的订单号</li>
+<li>amount : 用户购买游戏币数量，开发者需要给用户的游戏账户加上相应的数量。</li>
+</ul>
+<blockquote>
+<div><dl class="docutils">
+<dt><strong>注意: amount可以为负数，这种情况出现在玩家利用信用卡的退款机制进行欺诈交易，获取非法游戏币。</strong> 如果发现回调的amount为负值，第三方开发者需要减除相应的游戏币。我们推荐的操作是：</dt>
+<dd><ul class="first last simple">
+<li>减去相应的用户的游戏币</li>
+<li>对用户进行封禁操作，封禁操作可以设置封禁天数，根据获得的非法游戏币的数量设置不同的封禁天数，一般可以设置为：1天，1周，一个月，永久封禁</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<ul class="simple">
+<li>user_id : 购买发起的游戏用户标识</li>
+<li>timestamp : 请求时间戳，避免重复调用攻击</li>
+<li>sig : 加密字符串，其计算方法是md5(concat(timestamp,user_id,amount,trans_id,secret_key))，这样就能保证通信的安全</li>
+<li>gross : 扣除渠道费用之后的实体货币值(之所以加入gross参数，是因为有些第三方游戏厂商要求传递每次交易的实体货币数量，便于他们那边对账，但是这个值只是作为参考，并不是准确的)</li>
+</ul>
+<blockquote>
+<div><p><strong>注意:</strong></p>
+<ol class="arabic simple">
+<li>gross只是作为参考使用，不作为对账。</li>
+<li>有些支付渠道，例如supersonicads，sponsorpay，是不会向payelex传递这个数据的，所以payelex也不会包含该数据，这种情况下gross为0。</li>
+<li>有些支付渠道，例如moneybookers，不会在单次交易的回调中(详见支付原理图第5步)向智明星通传递渠道成本数据，所以这时候的gross是扣除渠道成本之前的数据</li>
+</ol>
+</div></blockquote>
+<ul class="simple">
+<li>currency : 实体货币单位，例如:USD,EUR,BRL</li>
+<li>channel : 支付渠道名称，例如: paypal,moneybookers,mopay,supersonicads</li>
+</ul>
+<p><strong>返回格式</strong></p>
+<ul class="simple">
+<li>3,null : 处理失败</li>
+<li>3,94a0acb127ef8ee8c925e3944941ce5e : 处理失败,没有相应的uid</li>
+<li>3,$user_id : 处理成功</li>
+</ul>
+<p><strong>IP验证</strong></p>
+<p>需要对请求作IP验证，只有IP地址：174.37.255.60，173.192.195.130发送过来的请求才能通过</p>
+<p><strong>样例代码</strong></p>
+<p>php</p>
+<div class="highlight-python"><pre>&lt;?php
+//ip验证
+$ip = get_ip();
+if (!in_array($ip, array('174.37.255.60','173.192.195.130'))) die("3,null");
+
+$user_id = $_REQUEST ["user_id"];
+$amount = $_REQUEST ["amount"];
+$transaction_id = $_REQUEST ["trans_id"];
+$timestamp = $_REQUEST['timestamp'];
+$sig = $_REQUEST ["sig"];
+$gross = $_REQUEST["gross"];
+$currency=$_REQUEST["currency"];
+$channel=$_REQUEST["channel"];
+$secret_key = 'example';
+
+$mysig = md5 ($timestamp.$user_id.$amount.$transaction_id.$secret_key);
+if ($mysig != $sig) {
+                // 从数据库中查找到相应的用户
+                $user = find_user_from_db($user_id);
+                if ($user == null) echo '3,94a0acb127ef8ee8c925e3944941ce5e';
+                return;
+}
+// 给用户加虚拟货币
+echo '3,'.$user_id;
+function get_ip() {
+        if (_valid_ip($_SERVER["HTTP_CLIENT_IP"])) {
+                return $_SERVER["HTTP_CLIENT_IP"];
+        }
+        foreach (explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]) as $ip) {
+                if (_valid_ip(trim($ip))) {
+                        return $ip;
+                }
+        }
+        if (_valid_ip($_SERVER["HTTP_X_FORWARDED"])) {
+                return $_SERVER["HTTP_X_FORWARDED"];
+        } elseif (_valid_ip($_SERVER["HTTP_FORWARDED_FOR"])) {
+                return $_SERVER["HTTP_FORWARDED_FOR"];
+        } elseif (_valid_ip($_SERVER["HTTP_FORWARDED"])) {
+                return $_SERVER["HTTP_FORWARDED"];
+        } elseif (_valid_ip($_SERVER["HTTP_X_FORWARDED"])) {
+                return $_SERVER["HTTP_X_FORWARDED"];
+        } else {
+                return $_SERVER["REMOTE_ADDR"];
+        }
+}
+function _valid_ip($ip) {
+        if (!empty($ip) &amp;&amp; ip2long($ip)!=-1) {
+                $reserved_ips = array (
+                                array('0.0.0.0','2.255.255.255'),
+                                array('10.0.0.0','10.255.255.255'),
+                                array('127.0.0.0','127.255.255.255'),
+                                array('169.254.0.0','169.254.255.255'),
+                                array('172.16.0.0','172.31.255.255'),
+                                array('192.0.2.0','192.0.2.255'),
+                                array('192.168.0.0','192.168.255.255'),
+                                array('255.255.255.0','255.255.255.255')
+                );
+                foreach ($reserved_ips as $r) {
+                        $min = ip2long($r[0]);
+                        $max = ip2long($r[1]);
+                        if ((ip2long($ip) &gt;= $min) &amp;&amp; (ip2long($ip) &lt;= $max)) return false;
+                }
+                return true;
+        } else {
+                return false;
+        }
+}
+?&gt;</pre>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>回调（新规则）<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p><em>注意: 目前我们优先采用新规则回调产品方，如果产品方未返回 &#8220;3,$user_id&#8221; 的话我们才用旧的规则再回调一次。</em></p>
+<p><strong>回调处理流程图</strong></p>
+<img alt="_static/callback_process_flow2.png" src="_static/callback_process_flow2.png" />
+<p><strong>回调格式</strong></p>
+<p>回调参数中不再包含sig验证了：</p>
+<div class="highlight-python"><pre>http://www.example.com/callback_url?trans_id=[TRANS_ID]&amp;amount=[AMOUNT]&amp;user_id=[USER_ID]&amp;timestamp=[TIMESTAMP]&amp;gross=[GROSS]&amp;currency=[CURRENCY]&amp;channel=[CHANNEL]</pre>
+</div>
+<p><strong>回调方法</strong></p>
+<p>POST</p>
+<p><strong>参数说明</strong></p>
+<ul class="simple">
+<li>trans_id : 唯一标示这次支付的订单号</li>
+<li>amount : 用户购买游戏币数量，开发者需要给用户的游戏账户加上相应的数量。</li>
+</ul>
+<blockquote>
+<div><dl class="docutils">
+<dt><strong>注意: amount可以为负数，这种情况出现在玩家利用信用卡的退款机制进行欺诈交易，获取非法游戏币。</strong> 如果发现回调的amount为负值，第三方开发者需要减除相应的游戏币。我们推荐的操作是：</dt>
+<dd><ul class="first last simple">
+<li>减去相应的用户的游戏币</li>
+<li>对用户进行封禁操作，封禁操作可以设置封禁天数，根据获得的非法游戏币的数量设置不同的封禁天数，一般可以设置为：1天，1周，一个月，永久封禁</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<ul class="simple">
+<li>user_id : 购买发起的游戏用户标识</li>
+<li>timestamp : 请求时间戳，避免重复调用攻击</li>
+<li>sig : 加密字符串，其计算方法是md5(concat(timestamp,user_id,amount,trans_id,secret_key))，这样就能保证通信的安全</li>
+<li>gross : 扣除渠道费用之后的实体货币值(之所以加入gross参数，是因为有些第三方游戏厂商要求传递每次交易的实体货币数量，便于他们那边对账，但是这个值只是作为参考，并不是准确的)</li>
+</ul>
+<blockquote>
+<div><p><strong>注意:</strong></p>
+<ol class="arabic simple">
+<li>gross只是作为参考使用，不作为对账。</li>
+<li>有些支付渠道，例如supersonicads，sponsorpay，是不会向payelex传递这个数据的，所以payelex也不会包含该数据，这种情况下gross为0。</li>
+<li>有些支付渠道，例如moneybookers，不会在单次交易的回调中(详见支付原理图第5步)向智明星通传递渠道成本数据，所以这时候的gross是扣除渠道成本之前的数据</li>
+</ol>
+</div></blockquote>
+<ul class="simple">
+<li>currency : 实体货币单位，例如:USD,EUR,BRL</li>
+<li>channel : 支付渠道名称，例如: paypal,moneybookers,mopay,supersonicads</li>
+</ul>
+<p><strong>返回格式</strong></p>
+<ul class="simple">
+<li>3,null : 处理失败</li>
+<li>3,94a0acb127ef8ee8c925e3944941ce5e : 处理失败,没有相应的uid</li>
+<li>3,$user_id : 处理成功</li>
+</ul>
+<p><strong>IP验证</strong></p>
+<p>需要对请求作IP验证，只有IP地址：174.37.255.60，173.192.195.130发送过来的请求才能通过</p>
+<p><strong>**返回格式</strong></p>
+<ul class="simple">
+<li>3,null : 处理失败</li>
+<li>3,94a0acb127ef8ee8c925e3944941ce5e : 处理失败,没有相应的uid</li>
+<li>3,$user_id : 处理成功</li>
+</ul>
+<p><strong>IP验证</strong></p>
+<p>需要对请求作IP验证，只有IP地址：174.37.255.60，173.192.195.130发送过来的请求才能通过</p>
+<p><strong>验证参数</strong></p>
+<p>当接收到支付系统的回调之后，应请求地址 VERIFY URL 验证交易信息以保证交易信息的正确性。如果交易信息正确则智明星通支付系统将返回 &#8216;OK&#8217;。:</p>
+<div class="highlight-python"><pre>[VERIFY URL]?trans_id=[TRANS_ID]&amp;amount=[AMOUNT]&amp;user_id=[USER_ID]&amp;timestamp=[TIMESTAMP]&amp;gross=[GROSS]&amp;currency=[CURRENCY]&amp;channel=[CHANNEL]</pre>
+</div>
+<ul class="simple">
+<li>VERIFY URL: <a class="reference external" href="https://pay.337.com/payelex/api/callback/verify.php">https://pay.337.com/payelex/api/callback/verify.php</a></li>
+<li>REQUEST TYPE: GET/POST</li>
+</ul>
+<p><strong>验证返回</strong></p>
+<ul class="simple">
+<li>OK：交易信息正确</li>
+<li>否则交易信息不可信，不能发游戏币</li>
+</ul>
+<p><strong>样例代码</strong></p>
+<p>注意：php版本的代码需要 <a class="reference external" href="http://elexpublish.googlecode.com/files/verisign_ca.crt">下载证书文件</a>  ，请将这个文件放到和回调php文件同样的目录。
+如果想要了解更多有关https的资料，请参阅文档：<a class="reference external" href="http://code.google.com/p/elexpublish/wiki/https_notes">HTTPS学习笔记</a></p>
+<p>php</p>
+<div class="highlight-python"><pre>&lt;?php
+$trans_id = $_REQUEST ["trans_id"];
+$user_id = $_REQUEST ["user_id"];
+$amount = $_REQUEST['amount'];
+$gross = $_REQUEST['gross'];
+$currency = $_REQUEST['currency'];
+$channel = $_REQUEST['channel'];
+$timestamp = $_REQUEST['timestamp'];
+
+ob_clean();
+//To check if the transaction exists in db, if it does. means the transactions has been successfully processed. Just return OK status
+$exist = is_trans_exist($trans_id);
+if($exist) {
+                echo '3,'.$user_id;
+                return;
+}
+
+//to verify the transaction towards payelex server.
+$res = check_payelex_transaction($trans_id, $user_id, $amount, $gross, $currency, $channel);
+if(!$res) {
+                echo "3,null";
+                return;
+}
+
+//retrieve the user from db.
+$user = find_user_from_db();
+if ($user == null) {
+                echo '3,94a0acb127ef8ee8c925e3944941ce5e';
+                return;
+}
+
+//recharge the user with the deserved game coins.
+if(add_coins($_REQUEST)) {
+                echo '3,'.$user_id;
+                return;
+}
+echo "3,null";
+function check_payelex_transaction($trans_id, $user_id, $amount, $gross, $currency, $channel) {
+                $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+        //verisign_ca.crt is the public certificate from VeriSign(It is the biggest Certificate Authority which issue ELEX client certificate)
+        //verisign_ca.crt must be located at the same directory as this PHP code are.
+        curl_setopt($ch, CURLOPT_CAINFO, 'verisign_ca.crt');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-form-urlencoded"));
+        curl_setopt($ch, CURLOPT_URL, 'https://pay.337.com/payelex/api/callback/verify.php');
+        curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $params = array(
+                                'trans_id'=&gt;$trans_id,
+                                'user_id'=&gt;$user_id,
+                                'amount'=&gt;$amount,
+                                'gross'=&gt;$gross,
+                                'currency'=&gt;$currency,
+                                'channel'=&gt;$channel,
+                                'timestamp'=&gt;$timestamp
+                );
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $result = trim($result);
+        if ($result === 'OK') return true;
+        return false;
+}</pre>
+</div>
+<p>java</p>
+<div class="highlight-python"><pre>import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PublicKey;
+import java.security.SignatureException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class PayelexTransactionServlet extends HttpServlet {
+
+                private static final long serialVersionUID = -2108375440169533437L;
+                private static final String VERIFY_URL = "https://pay.337.com/payelex/api/callback/verify.php";
+                private static final String VERISIGN_CA =
+                                "-----BEGIN CERTIFICATE-----\n"+
+                                "MIIE0zCCA7ugAwIBAgIQGNrRniZ96LtKIVjNzGs7SjANBgkqhkiG9w0BAQUFADCByjELMAkGA1UE\n"+
+                                "BhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZWZXJpU2lnbiBUcnVzdCBO\n"+
+                                "ZXR3b3JrMTowOAYDVQQLEzEoYykgMjAwNiBWZXJpU2lnbiwgSW5jLiAtIEZvciBhdXRob3JpemVk\n"+
+                                "IHVzZSBvbmx5MUUwQwYDVQQDEzxWZXJpU2lnbiBDbGFzcyAzIFB1YmxpYyBQcmltYXJ5IENlcnRp\n"+
+                                "ZmljYXRpb24gQXV0aG9yaXR5IC0gRzUwHhcNMDYxMTA4MDAwMDAwWhcNMzYwNzE2MjM1OTU5WjCB\n"+
+                                "yjELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZWZXJpU2ln\n"+
+                                "biBUcnVzdCBOZXR3b3JrMTowOAYDVQQLEzEoYykgMjAwNiBWZXJpU2lnbiwgSW5jLiAtIEZvciBh\n"+
+                                "dXRob3JpemVkIHVzZSBvbmx5MUUwQwYDVQQDEzxWZXJpU2lnbiBDbGFzcyAzIFB1YmxpYyBQcmlt\n"+
+                                "YXJ5IENlcnRpZmljYXRpb24gQXV0aG9yaXR5IC0gRzUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw\n"+
+                                "ggEKAoIBAQCvJAgIKXo1nmAMqudLO07cfLw8RRy7K+D+KQL5VwijZIUVJ/XxrcgxiV0i6CqqpkKz\n"+
+                                "j/i5Vbext0uz/o9+B1fs70PbZmIVYc9gDaTY3vjgw2IIPVQT60nKWVSFJuUrjxuf6/WhkcIzSdhD\n"+
+                                "Y2pSS9KP6HBRTdGJaXvHcPaz3BJ023tdS1bTlr8Vd6Gw9KIl8q8ckmcY5fQGBO+QueQA5N06tRn/\n"+
+                                "Arr0PO7gi+s3i+z016zy9vA9r911kTMZHRxAy3QkGSGT2RT+rCpSx4/VBEnkjWNHiDxpg8v+R70r\n"+
+                                "fk/Fla4OndTRQ8Bnc+MUCH7lP59zuDMKz10/NIeWiu5T6CUVAgMBAAGjgbIwga8wDwYDVR0TAQH/\n"+
+                                "BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAQYwbQYIKwYBBQUHAQwEYTBfoV2gWzBZMFcwVRYJaW1hZ2Uv\n"+
+                                "Z2lmMCEwHzAHBgUrDgMCGgQUj+XTGoasjY5rw8+AatRIGCx7GS4wJRYjaHR0cDovL2xvZ28udmVy\n"+
+                                "aXNpZ24uY29tL3ZzbG9nby5naWYwHQYDVR0OBBYEFH/TZafC3ey78DAJ80M5+gKvMzEzMA0GCSqG\n"+
+                                "SIb3DQEBBQUAA4IBAQCTJEowX2LP2BqYLz3q3JktvXf2pXkiOOzEp6B4Eq1iDkVwZMXnl2YtmAl+\n"+
+                                "X6/WzChl8gGqCBpH3vn5fJJaCGkgDdk+bW48DW7Y5gaRQBi5+MHt39tBquCWIMnNZBU4gcmU7qKE\n"+
+                                "KQsTb47bDN0lAtukixlE0kF6BWlKWE9gyn6CagsCqiUXObXbf+eEZSqVir2G3l6BFoMtEMze/aiC\n"+
+                                "Km0oHw0LxOXnGiYZ4fQRbxC1lfznQgUy286dUV4otp6F01vvpX1FQHKOtw5rDgb7MzVIcbidJ4vE\n"+
+                                "ZV8NhnacRHr2lVz2XTIIM6RUthg/aFzyQkqFOFSDX9HoLPKsEdao7WNq\n"+
+                                "-----END CERTIFICATE-----";
+
+                @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                                throws ServletException, IOException {
+                                doPost(request, response);
+                }
+
+                protected void doPost(HttpServletRequest request, HttpServletResponse response)
+                throws ServletException, IOException {
+                                String transId=request.getParameter("trans_id");
+                                String userId=request.getParameter("user_id");
+                                String amount=request.getParameter("amount");
+                                String gross=request.getParameter("gross");
+                                String currency=request.getParameter("currency");
+                                String channel=request.getParameter("channel");
+                                String timestamp=request.getParameter("timestamp");
+                                boolean flag=check(transId,userId,amount,gross,currency,channel,timestamp);
+                                response.setContentType("application/json; charset=UTF-8");
+                                response.setStatus(HttpServletResponse.SC_OK);
+
+                                if(flag==true){
+                                                //TODO:检查该uid在游戏中是否真实存在，如果不存在的话返回3,94a0acb127ef8ee8c925e3944941ce5e
+                                                boolean isUserExists=checkUserIdExists(userId);
+                                                if(isUserExists==false){
+                                                                response.getWriter().write("3,94a0acb127ef8ee8c925e3944941ce5e");
+                                                }else{
+                                                                response.getWriter().write("3,"+userId);
+                                                }
+                                }else{
+                                                response.getWriter().write("3,null");
+                                }
+                }
+                public boolean checkUserIdExists(String userId){
+                                //TODO:判断该玩家是否真实存在,需要开发者自行扩展该方法
+                                return false;
+                }
+                public static final boolean check(String transId, String userId, String amount, String gross, String currency, String channel,String timestamp) {
+                                try {
+                                                StringBuilder buffer = new StringBuilder();
+                                                buffer.append("trans_id=").append(URLEncoder.encode(transId, "UTF-8")).append("&amp;")
+                                                                .append("user_id=").append(URLEncoder.encode(userId, "UTF-8")).append("&amp;")
+                                                                .append("amount=").append(URLEncoder.encode(amount, "UTF-8")).append("&amp;")
+                                                                .append("gross=").append(URLEncoder.encode(gross, "UTF-8")).append("&amp;")
+                                                                .append("currency=").append(URLEncoder.encode(currency, "UTF-8")).append("&amp;")
+                                                                .append("channel=").append(URLEncoder.encode(channel, "UTF-8")).append("&amp;")
+                                                                .append("timestamp").append(URLEncoder.encode(timestamp, "UTF-8"));
+
+                                                TrustManager[] trustAllCerts = new TrustManager[]{
+                                        new X509TrustManager() {
+                                                                public X509Certificate[] getAcceptedIssuers() {
+                                                                        return null;
+                                                                }
+                                                                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                                                                }
+                                                                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                                                                                                InputStream is = new ByteArrayInputStream(VERISIGN_CA.getBytes());
+                                                                                                try {
+                                                                                                                CertificateFactory cf = CertificateFactory.getInstance("X.509");
+                                                                                                                Certificate publicCert = cf.generateCertificate(is);
+                                                                                                                PublicKey publicKey = publicCert.getPublicKey();
+                                                                                                                boolean validSignature = false;
+                                                                                                                for (int i = 0; i &lt; certs.length; i++) {
+                                                                                                                                try {
+                                                                                                                                                certs[i].verify(publicKey);
+                                                                                                                                                validSignature = true;
+                                                                                                                                                break;
+                                                                                                                                } catch (SignatureException e) {}
+                                                                                                                }
+                                                                                                                if (!validSignature) {
+                                                                                                                                throw new SignatureException();
+                                                                                                                }
+                                                                                                } catch (InvalidKeyException e) {
+                                                                                                                throw new RuntimeException(e);
+                                                                                                } catch (CertificateException e) {
+                                                                                                                throw new RuntimeException(e);
+                                                                                                } catch (NoSuchAlgorithmException e) {
+                                                                                                                throw new RuntimeException(e);
+                                                                                                } catch (NoSuchProviderException e) {
+                                                                                                                throw new RuntimeException(e);
+                                                                                                } catch (SignatureException e) {
+                                                                                                                throw new RuntimeException(e);
+                                                                                                }
+                                                                }
+                                                        }
+                                                };
+                                                SSLContext sc = SSLContext.getInstance("SSL");
+                                        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+                                        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+                                                URL serverUrl = new URL(VERIFY_URL);
+                                                HttpURLConnection conn = (HttpURLConnection) serverUrl.openConnection();
+                                                conn.setConnectTimeout(10000);
+                                                conn.setReadTimeout(10000);
+                                                conn.setRequestMethod("POST");
+                                                conn.setDoOutput(true);
+                                                conn.connect();
+
+                                                conn.getOutputStream().write(buffer.toString().getBytes("UTF-8"));
+                                                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK || conn.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
+                                                                String res = toString(conn.getInputStream(), "UTF-8");
+                                                                if (res != null &amp;&amp; res != "" &amp;&amp; res.trim().equals("OK")) return true;
+                                }
+                                                return false;
+                                } catch (Exception e) {
+                                                return false;
+                                }
+                }
+                private static String toString(InputStream is, String encoding) throws IOException {
+                                InputStreamReader in = new InputStreamReader(is, encoding);
+                                StringWriter sw = new StringWriter();
+                                char[] b = new char[1024 * 4];
+                int n = 0;
+                while (-1 != (n = in.read(b))) {
+                                sw.write(b, 0, n);
+                }
+                                return sw.toString();
+                }
+                public static void main(String[] args) {
+                                if (check("elex337c1f4d6a5c520c02cd0ccd43712a3b23e", "elex337_24319771", "4500.0", "30.14", "TRY", "elex337")) {
+                                                System.out.println("check OK");
+                                } else {
+                                                System.out.println("check Failed");
+                                }
+                }
+}</pre>
+</div>
+</div>
 </div>
 
 
@@ -136,7 +754,7 @@
           <a href="genindex.html" title="总目录"
              >索引</a></li>
         <li class="right" >
-          <a href="othersdk.html" title="目前该组件接入的SDK有"
+          <a href="othersdk.html" title="已经集成的SDK"
              >下一页</a> |</li>
         <li class="right" >
           <a href="payment.html" title="玩家支付流程"

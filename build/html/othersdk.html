@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>集成的内容 &mdash; doctest 1.0 文档</title>
+    <title>已经集成的SDK &mdash; doctest 1.0 文档</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -48,17 +48,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">內容目录</a></h3>
   <ul>
-<li><a class="reference internal" href="#">集成的内容</a></li>
+<li><a class="reference internal" href="#">已经集成的SDK</a></li>
 <li><a class="reference internal" href="#lib">在应用中引入lib工程</a></li>
-<li><a class="reference internal" href="#id2">开始集成</a></li>
+<li><a class="reference internal" href="#id1">开始集成</a></li>
 <li><a class="reference internal" href="#tapjop">集成Tapjop</a></li>
 <li><a class="reference internal" href="#facebook">集成Facebook</a></li>
 <li><a class="reference internal" href="#chartboost">集成Chartboost</a></li>
 <li><a class="reference internal" href="#google-analytics">集成Google Analytics</a></li>
 <li><a class="reference internal" href="#hasoffers">集成hasoffers</a></li>
 <li><a class="reference internal" href="#fiksu">集成FIKSU</a></li>
-<li><a class="reference internal" href="#id3">自定义初始化</a></li>
-<li><a class="reference internal" href="#id4">其他方法</a></li>
+<li><a class="reference internal" href="#id2">自定义初始化</a></li>
+<li><a class="reference internal" href="#id3">其他方法</a></li>
 </ul>
 
   <h4>上一个主题</h4>
@@ -93,8 +93,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="id1">
-<h1>集成的内容<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+  <div class="section" id="sdk">
+<h1>已经集成的SDK<a class="headerlink" href="#sdk" title="永久链接至标题">¶</a></h1>
 <p>目前SDK中集成了一下6个第三方SDK</p>
 <ul class="simple">
 <li>Tapjoy</li>
@@ -110,8 +110,8 @@
 <h1>在应用中引入lib工程<a class="headerlink" href="#lib" title="永久链接至标题">¶</a></h1>
 <p>请参照快速集成中（引入337lib工程）</p>
 </div>
-<div class="section" id="id2">
-<h1>开始集成<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h1>开始集成<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
 <ol class="arabic">
 <li><p class="first">在OnCreate方法中调用</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">SdkCore</span><span class="o">.</span><span class="n">initAll</span><span class="p">(</span><span class="n">Activity</span><span class="p">);</span>
@@ -259,15 +259,15 @@ android:exported="true"&gt;
 &lt;/receiver&gt;</pre>
 </div>
 </div>
-<div class="section" id="id3">
-<h1>自定义初始化<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h1>自定义初始化<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
 <p>若应用不想采用在AndroidManifest.xml文件中加meta-data的方式进行统一初始化，则可以调用SDK提供的自定义初始化方法， SDK提供了initXXXX的方法来方便应用调用，比如</p>
 <div class="highlight-python"><pre>SdkCore.initTapjoy(Context context,String appID,String secretKey);</pre>
 </div>
 <p>传递相应的参数后即可进行初始化。 <strong>应用可以自由决定如何使用该类方法</strong></p>
 </div>
-<div class="section" id="id4">
-<h1>其他方法<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id3">
+<h1>其他方法<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
 <ul class="simple">
 <li>部分第三方SDK提供一些事件统计，337SDK整合了部分方法</li>
 </ul>

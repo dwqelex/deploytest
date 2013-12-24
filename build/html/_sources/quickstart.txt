@@ -35,10 +35,6 @@
             android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity
-            android:name="com.web337.android.pay.PayFromPCActivity"
-            android:configChanges="orientation|keyboardHidden" >
-        </activity>
-        <activity
             android:name="com.web337.android.pay.PayShowPackagesActivity"
             android:configChanges="orientation|keyboardHidden" >
         </activity>
